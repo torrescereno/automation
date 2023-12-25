@@ -1,0 +1,56 @@
+[project]
+name = 'automation'
+requires-python = ">=3.10"
+description = ''
+
+[tool.ruff]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "*_ui.py",
+    "*_rc.py"
+]
+line-length = 95
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "RUF", # Ruff
+    "E", # style errors
+    "N", # naming
+    "F", # flakes
+    "PL", # pylint
+]
+ignore = [
+    "RUF100",
+    "PLR0913",
+    "PLR0912",
+    "PLR0915"
+]
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
