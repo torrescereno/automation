@@ -22,9 +22,7 @@ response = httpx.post(
 )
 
 if response.status_code == status_success:
-    print(
-        "Task executed successfully:", response.json()
-    )
+    print("Task executed successfully:", response.json())
 else:
     print(
         "Failed to execute task:",
