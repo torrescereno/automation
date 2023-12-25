@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from worker.task import error_handler, foo
+from worker.task import bar, baz, error_handler, foo
 
 load_dotenv()
 
@@ -20,13 +20,25 @@ class Item(BaseModel):
     y: int
 
 
-@app.post("/task")
-def task(item: Item):
-    foo.apply_async((item.amount, item.x, item.y), link_error=error_handler.s())
+@app.post("/task-foo")
+def task_foo(item: Item):
+    foo.apply_async((item.amount, item.x, item.y), link_error=error_handler.s(), priority=0)
     return JSONResponse({"Result": "OK"})
 
 
-@app.post("/run-task")
+@app.post("/task-bar")
+def task_bar(item: Item):
+    bar.apply_async((item.amount, item.x, item.y), link_error=error_handler.s(), priority=10)
+    return JSONResponse({"Result": "OK"})
+
+
+@app.post("/task-baz")
+def task_baz(item: Item):
+    baz.apply_async((item.amount, item.x, item.y), link_error=error_handler.s())
+    return JSONResponse({"Result": "OK"})
+
+
+@app.post("/run-task-flower")
 async def run_task(item: Item):
     flower_host = "http://flower:5555"
     task_name = "foo"

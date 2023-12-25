@@ -34,7 +34,8 @@ services:
   worker:
     container_name: worker
     build: .
-    command: celery -A worker.celery worker --loglevel=info
+    # command: celery -A worker.celery worker -l info -Q default,baz # prefork Ejecución en múltiples procesos
+    command: celery -A worker.celery worker -B -l info -Q default,baz,schedule -P solo # solo Ejecución en el hilo principal solamente
     volumes:
       - .:/app
     environment:

@@ -7,6 +7,7 @@ load_dotenv()
 
 app = Celery(__name__)
 
+
 app.conf.update(
     result_expires=3600,
     broker_connection_retry_on_startup=True,
@@ -16,7 +17,16 @@ app.conf.update(
     accept_content=["json"],
     include=["worker.task"],
     broker_url=os.environ.get("CELERY_BROKER_URL"),
-    result_backend=os.environ.get(
-        "CELERY_RESULT_BACKEND"
-    ),
+    result_backend=os.environ.get("CELERY_RESULT_BACKEND"),
+    task_queue_max_priority=10,
 )
+
+app.conf.broker_transport_options = {
+    "queue_order_strategy": "priority",
+}
+
+app.conf.beat_schedule = {
+    "emoji every 5s": {"task": "worker.task.emoji", "schedule": 5.0},
+}
+
+app.conf.timezone = "UTC"
