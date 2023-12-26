@@ -21,6 +21,13 @@ app.conf.update(
     task_queue_max_priority=10,
 )
 
+app.conf.task_routes = {
+    "worker.task.foo": {"queue": "default"},
+    "worker.task.bar": {"queue": "default"},
+    "worker.task.baz": {"queue": "baz"},
+    "worker.task.emoji": {"queue": "schedule"},
+}
+
 app.conf.broker_transport_options = {
     "queue_order_strategy": "priority",
 }
