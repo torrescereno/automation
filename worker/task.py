@@ -18,7 +18,7 @@ def error_handler(request, exc, traceback):
     print("Task {0} raised exception: {1!r}\n{2!r}".format(request.id, exc, traceback))
 
 
-@app.task(bind=True, max_retries=3, default_retry_delay=60)
+@app.task(name="foo", bind=True, max_retries=3, default_retry_delay=60, queue="default")
 def foo(self, a, b, c):
     try:
         # session = Session()
@@ -33,19 +33,19 @@ def foo(self, a, b, c):
             logging.error("Max retries exceeded")
 
 
-@app.task()
+@app.task(name="bar", queue="default")
 def bar(a, b, c):
     time.sleep(a)
     return b + c
 
 
-@app.task()
+@app.task(name="baz", queue="baz")
 def baz(a, b, c):
     time.sleep(a)
     return b + c
 
 
-@app.task()
+@app.task(name="emoji", queue="schedule")
 def emoji():
     emojis = ["🎉", "🌟", "🚀", "👍", "🐍"]
     return random.choice(emojis)
