@@ -33,7 +33,7 @@ app.conf.broker_transport_options = {
 }
 
 app.conf.beat_schedule = {
-    "emoji every 5s": {"task": "worker.task.emoji", "schedule": 5.0},
+    "emoji every 5s": {"task": "emoji", "schedule": 5.0},
 }
 
 app.conf.timezone = "UTC"
